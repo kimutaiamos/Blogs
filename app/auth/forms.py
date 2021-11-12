@@ -30,6 +30,12 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('that username is already taken or incorrect spellings')
     
 
+class loginForm(FlaskForm):
+    email = StringField('your email address', validators=[Required(),Email()])
+    password = StringField('password', validators=[Required()])
+    remember = BooleanField('remeber me')
+    submit = SubmitField('Sign In')
+
 
 
 
