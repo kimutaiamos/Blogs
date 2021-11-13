@@ -1,0 +1,53 @@
+{% extends 'base.html'%}
+{% block content %}
+<header class="masthead" style="background-image: url(../static/cup.jpeg); margin-top: 40px;background-repeat: no-repeat;
+background-size: cover;
+background-position: center center;
+background-attachment: fixed; margin-top:0%">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="site-heading">
+          <span class="subheading"><i class="fas fa-quote-left"></i> <em>{{quote.quote}}</em> <i
+              class="fas fa-quote-right"></i></span>
+          <h2>{{quote.author}}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<div class="container" style="background-image:url(../static/hand.jpeg);background-repeat: no-repeat;
+background-size: cover;
+background-position: center center;
+background-attachment: fixed;">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+      {%for post in posts[::-1]%}
+      <div class="card-body">
+        <div class="post-preview">
+          <p href="{{url_for('main.new_post', id = post.id)}}">
+            <h2 class="post-title">
+              {{post.post_title}}
+            </h2>
+            <h3 class="post-subtitle">
+              {{post.post_content | truncate (45) | safe}}
+            </h3>
+          </p>
+          <p class="post-meta">Posted by
+            <p href="{{url_for('main.profile', id = post.user_id)}}">{{post.post_by}}</p> on
+            {{post.posted_at.strftime('%B %d, %Y')}}
+          </p>
+
+          <a class="btn btn-secondary"href="{{url_for('main.CommentBlog', id = post.id)}}">Comment</a>
+          <a class="btn btn-success" href="{{url_for('main.updateBlog', id=post.id)}}"><i class="fas fa-pen pr-3"></i>update</a>
+          <a class="btn btn-danger" href="{{url_for('main.delete_post',id = post.id)}}"><i class="fas fa-trash text-danger">Delete</i></a>
+        </div>
+      </div>
+      <hr>
+      {%endfor%}
+    </div>
+  </div>
+</div>
+{%endblock%}
