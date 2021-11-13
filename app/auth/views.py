@@ -46,7 +46,15 @@ def login():
 
     title = "blogs"
     return render_template('auth/login.html',login_form = login_form, title = title)
-    
+
+
+#logging out function
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user
+    return redirect(url_for('main.index'))
+    #redirects user to the main page of the app after a successful login
 
 
 
