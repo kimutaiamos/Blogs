@@ -60,7 +60,7 @@ class User(UserMixin, db.Model):
 
     #checking if user liked the post
     def has_liked_post(self, post):
-        return PostLIke.query.filter(
+        return PostLike.query.filter(
             PostLike.user_id ==self.id,
             PostLike.post_id == post.id).count() > 0
 
@@ -137,6 +137,30 @@ class Comment(db.Model):
     def get_comments(cls,id):
         comments = Comment.query.filter_by(post_id = id).all()
         return comments
+
+
+
+class Subscribers(db.Model):
+    __table__ = "subscribers"
+    id  = db.column(db.integer,primary_key = True)
+    email = db.column(db.string(255), unique = True)
+
+
+class PostLike(db.Model):
+    __tablename__ = "post_like"
+    id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
+
+
+class Quote:
+    """
+    class qoutes consumed from the api endpoint
+    """
+    def __init__(self, author,quote):
+        self.author = author
+        self.quote = quote
+
 
 
     
