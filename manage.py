@@ -1,23 +1,20 @@
 from app import create_app,db
 from flask_script import Manager,Server
-import app
 from app.models import User
-from flask_migrate import Migrate,MigrateCommand, migrate
-
-
+from flask_migrate import Migrate,MigrateCommand
 
 #creating app instances
 app = create_app('production')
 
 
-app = Manager(app)
-Manager.add_command('server',Server)
+manager = Manager(app)
+manager.add_command('server',Server)
 
 
-migrate = migrate(app,db)
-Manager.add_command('db',MigrateCommand)
-@Manager.command
+migrate = Migrate(app,db)
+manager.add_command('db',MigrateCommand)
 
+@manager.command
 def test():
     """
     run the unitests
@@ -27,10 +24,10 @@ def test():
     unittest.TextTestRunner(verbosity=2).run(test)
 
 
-@Manager.shell
+@manager.shell
 def make_shell_context():
     return dict(app = app,db = db,User = User)
 
 
 if __name__ == '__main__':
-    Manager.run()
+    manager.run()

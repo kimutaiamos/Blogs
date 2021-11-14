@@ -1,9 +1,10 @@
-from _typeshed import Self
+# from _typeshed import Self
 from enum import unique
 from .import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from .import login_manager
 from datetime import datetime
+from flask_login import UserMixin
 
 
 @login_manager.user_loader
@@ -14,21 +15,21 @@ def user_loader(user_id):
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    id = db.column(db.integer,primary_key = True)
-    first_name = db.column(db.string(255))
-    last_name = db.column(db.string(255))
-    username = db.column(db.string(255), unique = True)
-    email = db.column(db.string(255), unique = True, index = True)
-    bio = db.column(db.string())
-    avatar_path = db.column(db.string())
-    password_hash = db.column(db.string(255))
-    posts = db.relationship("post",
+    id = db.Column(db.Integer,primary_key = True)
+    first_name = db.Column(db.String(255))
+    last_name = db.Column(db.String(255))
+    username = db.Column(db.String(255), unique = True)
+    email = db.Column(db.String(255), unique = True, index = True)
+    bio = db.Column(db.String())
+    avatar_path = db.Column(db.String())
+    password_hash = db.Column(db.String(255))
+    posts = db.relationship("Post",
                             backref = "user",
                             lazy = "dynamic")
-    comments = db.relationshp("comment",
+    comments = db.relationship("Comment",
                                 backref = "user",
                                 lazy = "dynamic")
-    liked = db.relationship("Postlike",
+    liked = db.relationship("PostLike",
                              backref = "user",
                              lazy = "dynamic")
     
@@ -70,10 +71,8 @@ class User(UserMixin, db.Model):
 
 
 
-class Post(db.model):
-    __table__ = "posts"
-
-
+class Post(db.Model):
+    __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key = True)
     post_title = db.Column(db.String)
     post_content = db.Column(db.Text)
@@ -83,7 +82,6 @@ class Post(db.model):
     post_by = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     comments = db.relationship("Comment", 
-                                    foreign_keys = "comment.post_id",
                                     backref = "post",
                                     lazy = "dynamic")
     
@@ -113,7 +111,7 @@ class Comment(db.Model):
     __tablename__ = "comments"
 
 
-    id = db.column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True)
     comment = db.Column(db.String)
     comment_at = db.Column(db.DateTime)
     comment_by = db.Column(db.String)
@@ -141,9 +139,9 @@ class Comment(db.Model):
 
 
 class Subscribers(db.Model):
-    __table__ = "subscribers"
-    id  = db.column(db.integer,primary_key = True)
-    email = db.column(db.string(255), unique = True)
+    __tablename__ = "subscribers"
+    id  = db.Column(db.Integer,primary_key = True)
+    email = db.Column(db.String(255), unique = True)
 
 
 class PostLike(db.Model):

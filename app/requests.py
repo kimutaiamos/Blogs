@@ -1,6 +1,5 @@
 import requests
 from sqlalchemy.engine import url
-from .import Quote
 
 url = "http://quotes.stormconsultancy.co.uk/random.json"
 
@@ -11,5 +10,5 @@ def get_quote():
 
     response = requests.get(url).json()
 
-    random_quote = Quote(response.get("author"),response.get("quote"))
+    random_quote =quote(response.get("author"),response.get("quote"))
     return random_quote
