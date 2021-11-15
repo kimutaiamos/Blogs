@@ -23,6 +23,8 @@ class User(UserMixin, db.Model):
     bio = db.Column(db.String())
     avatar_path = db.Column(db.String())
     password_hash = db.Column(db.String(255))
+    posts_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
+
     posts = db.relationship("Post",
                             backref = "user",
                             lazy = "dynamic")
@@ -81,6 +83,8 @@ class Post(db.Model):
     downvotes = db.Column(db.Integer, default = 0)
     post_by = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("comments.id"))
+
     comments = db.relationship("Comment", 
                                     backref = "post",
                                     lazy = "dynamic")
@@ -116,7 +120,7 @@ class Comment(db.Model):
     comment_at = db.Column(db.DateTime)
     comment_by = db.Column(db.String)
     like_count = db.Column(db.Integer, default = 0)
-    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
+    post_id = db.Column(db.Integer, db.ForeignKey("post.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     posted = db.Column(db.DateTime,default=datetime.utcnow)
 
