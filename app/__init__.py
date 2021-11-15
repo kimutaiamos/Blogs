@@ -18,7 +18,6 @@ mail = Mail()
 simple = SimpleMDE()
 
 
-
 def create_app(config_name):
     app = Flask(__name__)
     mail.init_app(app)
@@ -27,6 +26,7 @@ def create_app(config_name):
 
       # Creating the app configurations
     app.config.from_object(config_options[config_name])
+    
 
     # Initializing flask extensions
     bootstrap.init_app(app)

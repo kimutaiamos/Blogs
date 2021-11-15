@@ -2,8 +2,10 @@ import os
 
 class Config:
 
-    SECRET_KEY=os.environ.get('SECRET_KEY')
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa-school:12345@localhost/blogs'
+    
+    exportSQLALCHEMY_DATABASE_URI='postgresql+psycopg2://{moringa-school}:{12345}@localhost/{blogs}'
+
+    # SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa-school:12345@localhost/blogs'
 
     UPLOADED_PHOTOS_DEST ='app/static/photos'
 
@@ -15,14 +17,16 @@ class Config:
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
+    SECRET_KEY= os.environ.get('54a12f8986b077954dcf2ad7f14d07ae')
     SENDER_EMAIL = 'kimutaiamos82@gmail.com'
+  
+   #simplemde configurations
     SIMPLEMDE_JS_IIFE = True
     SIMPLEMDE_USE_CDN = True
 
     @staticmethod
     def init_app(app):
         pass
-
 
 class ProdConfig(Config):
     '''
@@ -41,6 +45,7 @@ class DevConfig(Config):
         Config: The parent configuration class with General configuration settings
     '''
     SQLALCHEMY_DATABASE_URI ='postgresql+psycopg2://moringa-school:12345@localhost/blogs'
+    # app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:12345@localhost/blogs"
 
     DEBUG = True
 

@@ -10,5 +10,5 @@ def get_quote():
 
     response = requests.get(url).json()
 
-    random_quote =quote(response.get("author"),response.get("quote"))
+    random_quote =(response.get("author"),response.get("quote"))
     return random_quote
